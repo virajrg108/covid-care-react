@@ -1,0 +1,27 @@
+.landing {
+  background-color: #093966;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  .icon {
+    height: 120px;
+    width: 120px;
+  }
+  .title {
+    font-family: 'Pacifico', sans-serif;
+    font-size: 36px;
+    margin: 20px 0;
+  }
+  .login-btn {
+    border: 2px solid #fff;
+    border-radius: 4px;
+  }
+  .ant-divider {
+    border-color: #fff;
+    border-width: 2px;
+    height: 3em;
+    margin: 20px;
+  }
+}

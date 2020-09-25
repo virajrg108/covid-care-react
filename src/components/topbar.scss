@@ -1,0 +1,79 @@
+.ant-layout-content {
+  padding: 0 50px !important;
+}
+.drawer {
+  text-align: center;
+  .ant-drawer-body {
+    padding: 24px 0;
+  }
+  .ant-menu-item-selected {
+    background-color: #cad0d2 !important;
+  }
+  .logo-wrapper-sm {
+    width: 100%;
+      .logo {
+        height: 60px;
+        width: auto;
+        margin-top: 5px;
+      }
+      margin-bottom: 20px;
+  }
+}
+
+.topbar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  .menu-btn-sm-wrapper {
+    display: none;
+    .menu-btn-sm {
+      font-size: 24px;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+  .logo {
+    height: 50px;
+    width: auto;
+    float: left;
+    margin-right: 60px;
+    margin-top: 5px;
+  }
+  .title {
+    font-family: 'Pacifico', sans-serif;
+    font-size: 28px;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+  }
+  .desktop-menu {
+    display: flex;
+    align-items: flex-end;
+  }
+  .ant-row {
+    width: 100%;
+  }
+  .menu-wrapper-lg {
+    ul {
+      float: right;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .ant-layout-content {
+    padding: 0 20px !important;
+  }
+  .topbar {
+    padding: 0 30px;
+    .menu-btn-sm-wrapper {
+      display: block;
+    }
+    .login-wrapper {
+      display: none;
+    }
+    .logo-wrapper-lg, .menu-wrapper-lg {
+      display: none;
+    }
+  }
+}

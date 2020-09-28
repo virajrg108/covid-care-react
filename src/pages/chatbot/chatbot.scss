@@ -1,0 +1,41 @@
+.chatbot-wrapper {
+  overflow: hidden;
+  margin-top: 65px;
+  display: flex;
+  justify-content: center;
+  .chatbot {
+    align-self: center;
+    overflow: hidden;
+  }
+  .rsc-header {
+    display: none;
+  }
+  .irIdto {
+    height: 90vh;
+    width: 600px;
+  }
+  .fBGGBn {
+    height: 80vh;
+    overflow-y: auto;
+  }
+  .rsc-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%
+  }
+  .fhAWVE, .fMcZCH {
+    background-color: #093966 !important;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .chatbot-wrapper {
+    .rsc {
+      width: 100%;
+    }
+    .irIdto {
+      height: 90vh;
+      width: 100%;
+    }
+  }
+}
+// primary color - #093966

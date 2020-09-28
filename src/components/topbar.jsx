@@ -12,14 +12,18 @@ const { Header } = Layout;
 class Topbar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { drawerVisible: false, menuSelectedKey:1 }
-    console.log(props);
+    this.state = { drawerVisible: false, menuSelectedKey: 1, tabs: [], selected: 'profile' }
   }
   toggleDrawer = (booli) => {
     this.setState({ drawerVisible: booli });
   }
   handleRedirect = (page) => {
+    console.log(page, 'page:');
     history.push('/' + page);
+  }
+  componentDidMount() {
+    console.log(this.props, 'componentDid');
+    this.setState({tabs: this.props.tabs, selected:this.props.selected });
   }
   render() {
     return (
@@ -37,13 +41,13 @@ class Topbar extends React.Component {
           </div>
           <Menu
             mode="inline"
-            selectedKeys={this.state.menuSelectedKey.toString()}
+            selectedKeys={this.state.selected}
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
           >
-            <Menu.Item key="1" style={{display: this.props.tabs.profile}}>Profile</Menu.Item>
-            <Menu.Item key="2" style={{display: this.props.tabs.dashboard}}>Dashboard</Menu.Item>
-            <Menu.Item key="3" style={{display: this.props.tabs.chatbot}}>Chatbot</Menu.Item>
+            {this.state.tabs.length!=0 ? this.state.tabs.map((obj) => {
+              return <Menu.Item onClick={()=>this.handleRedirect(obj.value)} key={obj.value} style={{ display: this.props.tabs.profile }}>{obj.name}</Menu.Item>
+            }):<></>}
             <Menu.Item key="4" >Logout</Menu.Item>
           </Menu>
         </Drawer>
@@ -58,20 +62,12 @@ class Topbar extends React.Component {
             <div className="title">Covid Care</div>
           </Col>
           <Col span={8} className="menu-wrapper-lg">
-            {this.props.showMenu ? <div>
-              <Menu className="desktop-menu" theme="dark" mode="horizontal" selectedKeys={this.state.menuSelectedKey.toString()}>
-                <Menu.Item key="1" style={{display: this.props.tabs.profile}}>Profile</Menu.Item>
-                <Menu.Item key="2" style={{display: this.props.tabs.dashboard}}>Dashboard</Menu.Item>
-                <Menu.Item key="3" style={{display: this.props.tabs.chatbot}}>ChatBot</Menu.Item>
-                <Menu.Item key="4">Logout</Menu.Item>
-              </Menu>
-            </div> :
-              <div>
-                <Menu theme="dark" mode="horizontal" selectedKeys={this.state.menuSelectedKey.toString()}>
-                  <Menu.Item key="1">Logout</Menu.Item>
-                </Menu>
-              </div>
-            }
+            <Menu className="desktop-menu" theme="dark" mode="horizontal" selectedKeys={this.state.selected}>
+              {this.state.tabs.length!=0 ? this.state.tabs.map((obj) => {
+                return <Menu.Item onClick={()=>this.handleRedirect(obj.value)} key={obj.value} style={{ display: this.props.tabs.profile }}>{obj.name}</Menu.Item>
+              }):<></>}
+              <Menu.Item key="4">Logout</Menu.Item>
+            </Menu>
           </Col>
         </Row>
       </Header>

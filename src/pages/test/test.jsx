@@ -79,49 +79,34 @@ class Profile extends React.Component {
             <Col xs={24} sm={24} md={14} className="login-form-wrapper">
               <div className="login-title">PROFILE</div>
               <div className="login-form">
-                <Row justify="space-between">
-                  <Col xs={24} sm={24} md={11}>
-                    Name
+                <Row>
+                  <Col xs={24} sm={24} md={7}>
+                    Username
                   </Col>
-                  <Col xs={24} sm={24} md={11}>
-                    <div className="login-inp" >{this.state.name}sdfd</div>
-                  </Col>
-                </Row>
-                <Row justify="space-between">
-                  <Col xs={24} sm={24} md={11}>
-                    Email
-                  </Col>
-                  <Col xs={24} sm={24} md={11}>
-                    <div className="login-inp" >{this.state.email}dsfdsf</div>
+                  <Col xs={24} sm={24} md={17}>
+                    <Input className="login-inp" size="large" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
                   </Col>
                 </Row>
-                <Row justify="space-between">
-                  <Col xs={24} sm={24} md={11}>
-                    Gender
+                <Row>
+                  <Col xs={24} sm={24} md={7}>
+                    Email Address
                   </Col>
-                  <Col xs={24} sm={24} md={11}>
-                    <div className="login-inp" >{this.state.gender}dfdff</div>
+                  <Col xs={24} sm={24} md={17}>
+                    <Input className="login-inp" size="large" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
                   </Col>
                 </Row>
-                <Row justify="space-between">
-                  <Col xs={24} sm={24} md={11}>
+                <Row>
+                  <Col xs={24} sm={24} md={7}>
                     Age
                   </Col>
-                  <Col xs={24} sm={24} md={11}>
-                    <div className="login-inp" >{this.state.name}dfdff</div>
+                  <Col xs={24} sm={24} md={17}>
+                    <Input className="login-inp" size="large" placeholder="Age" name="age" value={this.state.username} onChange={this.handleChange} />
                   </Col>
                 </Row>
-                <Row justify="space-between">
-                  <Col xs={24} sm={24} md={11}>
-                    Supervising Doctor
-                  </Col>
-                  <Col xs={24} sm={24} md={11}>
-                    <div className="login-inp" >{this.state.doctor}dfdff</div>
-                  </Col>
-                </Row>
-                {/* <div style={{textAlign:'center'}}>
+                <div style={{textAlign:'center'}}>
                   <Button className="login-btn" type="primary" size="large" onClick={this.handleLogin}>Save Changes</Button>
-                </div> */}
+
+                </div>
               </div>
             </Col>
           </Row>

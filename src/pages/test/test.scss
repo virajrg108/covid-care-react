@@ -19,13 +19,12 @@
         margin-bottom: 30px;
       }
       .login-form {
-        text-align: right;
+        text-align: left;
         .login-inp {
           margin-bottom: 20px;
           border-radius: 5px;
           border: none;
           color: #777;
-          text-align: left;
         }
         .error-inp {
           border-color: #ff4d4f;
@@ -40,14 +39,6 @@
           border-radius: 5px;
         }
       }
-    }
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .profile {
-    .login-form {
-      text-align: left !important;
     }
   }
 }

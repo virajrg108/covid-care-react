@@ -6,7 +6,7 @@ import fetch from 'node-fetch';
 
 import history from '../../history';
 import Topbar from '../../components/topbar';
-import './profile.scss';
+import './test.scss';
 import Icon from '../../img/icon.png';
 import { store } from '../../App';
 
@@ -72,39 +72,31 @@ class Profile extends React.Component {
   }
   render() {
     return (
-      <Layout className="profile">
+      <Layout className="test">
         <Topbar title={'Covid Care'} tabs={this.state.user.role && this.state.user.role == 'Patient' ? MenuHandler[0].tabs : MenuHandler[1].tabs} selected="profile" />
         <Content style={{ padding: '0 50px' }} className="login-content">
           <Row justify="center" style={{ width: '100%' }}>
             <Col xs={24} sm={24} md={14} className="login-form-wrapper">
-              <div className="login-title">PROFILE</div>
+              <div className="login-title">TESTS</div>
               <div className="login-form">
-                <Row>
-                  <Col xs={24} sm={24} md={7}>
-                    Username
+                <Row justify="space-between">
+                  <Col xs={24} sm={24} md={11}>
+                    Co-RADs
                   </Col>
-                  <Col xs={24} sm={24} md={17}>
-                    <Input className="login-inp" size="large" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col xs={24} sm={24} md={7}>
-                    Email Address
-                  </Col>
-                  <Col xs={24} sm={24} md={17}>
-                    <Input className="login-inp" size="large" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
+                  <Col xs={24} sm={24} md={11}>
+                    <Input className="login-inp" placeholder="Value" name="username" value={this.state.username} onChange={this.handleChange} />
                   </Col>
                 </Row>
-                <Row>
-                  <Col xs={24} sm={24} md={7}>
-                    Age
+                <Row justify="space-between">
+                  <Col xs={24} sm={24} md={11} >
+                    Test 2
                   </Col>
-                  <Col xs={24} sm={24} md={17}>
-                    <Input className="login-inp" size="large" placeholder="Age" name="age" value={this.state.username} onChange={this.handleChange} />
+                  <Col xs={24} sm={24} md={11}>
+                    <Input className="login-inp" placeholder="Value" name="username" value={this.state.username} onChange={this.handleChange} />
                   </Col>
                 </Row>
                 <div style={{textAlign:'center'}}>
-                  <Button className="login-btn" type="primary" size="large" onClick={this.handleLogin}>Save Changes</Button>
+                  <Button className="login-btn" type="primary" size="large" onClick={this.handleLogin}>Submit</Button>
 
                 </div>
               </div>

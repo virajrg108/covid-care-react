@@ -1,4 +1,4 @@
-.test  {
+.profile {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -13,18 +13,26 @@
     .login-form-wrapper {
       box-shadow: 0px 2px 31px -2px rgba(170, 170, 170, 1);
       border-radius: 10px;
-      padding: 30px 60px;
+      padding: 30px;
       .login-title {
         font-size: 28px;
         margin-bottom: 30px;
       }
       .login-form {
-        text-align: right;
+        text-align: left;
+        .modal-label {
+          font-size: 14px;
+          color: #666;
+        }
+        .modal-text {
+          font-weight: 600;
+        }
         .login-inp {
-          text-align: left;
           margin-bottom: 20px;
           border-radius: 5px;
+          border: none;
           color: #777;
+          text-align: left;
         }
         .error-inp {
           border-color: #ff4d4f;
@@ -42,13 +50,11 @@
     }
   }
 }
+
 @media only screen and (max-width: 600px) {
-  .test {
+  .profile {
     .login-form {
       text-align: left !important;
-    }
-    .login-form-wrapper {
-      padding: 30px 5px;
     }
   }
 }

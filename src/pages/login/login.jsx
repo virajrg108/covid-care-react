@@ -27,35 +27,35 @@ class Login extends React.Component {
       username: this.state.username,
       pass: this.state.pass
     }
-    // fetch('http://localhost:5000/login', {
-    //   method: 'POST',
-    //   mode: 'cors',
-    //   credentials: 'same-origin',
-    //   body: JSON.stringify(body),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json'
-    //   },
-    // })
-    //   .then(response => {
-    //     console.log(response);
-    //     return response.json();
-    //   }).then(data => {
-    //     // Work with JSON data here
-    //     console.log(data);
-    //     if (data.status == 200) {
-    //       message.success('Login successful !');
-    //       store.dispatch(set("user", { username: this.state.username, role: data.role }));
-    //       history.push('/home');
-    //     } else {
-    //       message.error('Login unsuccessful !');
-    //       this.setState({ username: '', pass: '' })
-    //     }
-    //   }).catch(err => {
-    //     // Do something for an error here
-    //     console.log("Error Reading data " + err);
-    //     message.error('Login Unsuccessful!');
-    //   });
+    fetch('http://127.0.0.1:5000/login', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'same-origin',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    })
+      .then(response => {
+        console.log(response);
+        return response.json();
+      }).then(data => {
+        // Work with JSON data here
+        console.log(data);
+        if (data.status == 200) {
+          message.success('Login successful !');
+          store.dispatch(set("user", { username: this.state.username, role: data.role }));
+          history.push('/home');
+        } else {
+          message.error('Login unsuccessful !');
+          this.setState({ username: '', pass: '' })
+        }
+      }).catch(err => {
+        // Do something for an error here
+        console.log("Error Reading data " + err);
+        message.error('Login Unsuccessful!');
+      });
 
     //--------Mock----------//
     store.dispatch(set("user", { username: this.state.username, role: 'Patient', firstTime: true }));

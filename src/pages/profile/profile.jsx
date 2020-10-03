@@ -13,120 +13,102 @@ import { store } from '../../App';
 // mock server - https://844171e3-d749-453e-9e27-605c39f74c8d.mock.pstmn.io
 const { Header, Content, Footer } = Layout;
 const MenuHandler = [
-  { role: 'Patient', tabs: [{ name: 'Profile', value: 'profile' }, { name: 'Daily test', value: 'test' }, { name: 'Chatbot', value: 'chatbot' }] },
-  { role: 'Doctor', tabs: [{ name: 'Dashboard', value: 'Dashboard' }, { name: 'Daily test', value: 'test' }] }
+  { role: 'patient', tabs: [{ name: 'Profile', value: 'profile' }, { name: 'Chatbot', value: 'chatbot' }] },
+  { role: 'doctor', tabs: [{ name: 'Dashboard', value: 'Dashboard' }, { name: 'Daily test', value: 'takeTest' }] }
 ]
 class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = { user: get(store.getState(), "user") };
-    console.log();
-  }
-  handleChange = e => {
-    let name = e.target.name;
-    this.setState({ [name]: e.target.value });
   }
   handleRedirect = (page) => {
     history.push('/' + page);
   }
-  handleLogin = () => {
-    let body = {
-      username: this.state.username,
-      pass: this.state.pass
-    }
-    // fetch('http://localhost:5000/login', {
-    //   method: 'POST',
-    //   mode: 'cors',
-    //   credentials: 'same-origin',
-    //   body: JSON.stringify(body),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json'
-    //   },
-    // })
-    //   .then(response => {
-    //     console.log(response);
-    //     return response.json();
-    //   }).then(data => {
-    //     // Work with JSON data here
-    //     console.log(data);
-    //     if (data.status == 200) {
-    //       message.success('Login successful !');
-    //       store.dispatch(set("user", { username: this.state.username, role: data.role }));
-    //       history.push('/profile');
-    //     } else {
-    //       message.error('Login unsuccessful !');
-    //       this.setState({ username: '', pass: '' })
-    //     }
-    //   }).catch(err => {
-    //     // Do something for an error here
-    //     console.log("Error Reading data " + err);
-    //     message.error('Login Unsuccessful!');
-    //   });
-
-    //--------Mock----------//
-    store.dispatch(set("user", { username: this.state.username, role: 'Patient' }));
-    history.push('/');
-    //-----Mock-Ends--------//
-
-  }
   render() {
     return (
       <Layout className="profile">
-        <Topbar title={'Covid Care'} tabs={this.state.user.role && this.state.user.role == 'Patient' ? MenuHandler[0].tabs : MenuHandler[1].tabs} selected="profile" />
+        <Topbar title={'Covid Care'} tabs={this.state.user.role && this.state.user.role == 'patient' ? MenuHandler[0].tabs : MenuHandler[1].tabs} selected="profile" />
         <Content style={{ padding: '0 50px' }} className="login-content">
           <Row justify="center" style={{ width: '100%' }}>
             <Col xs={24} sm={24} md={14} className="login-form-wrapper">
               <div className="login-title">PROFILE</div>
               <div className="login-form">
                 <Row justify="space-between">
-                  <Col xs={24} sm={24} md={11}>
+                  <Col xs={24} sm={24} md={11} className="inp-label">
                     Name
                   </Col>
                   <Col xs={24} sm={24} md={11}>
-                    <div className="login-inp" >{this.state.name}sdfd</div>
+                    <div className="login-inp" >{this.state.user.name}</div>
                   </Col>
                 </Row>
                 <Row justify="space-between">
-                  <Col xs={24} sm={24} md={11}>
+                  <Col xs={24} sm={24} md={11} className="inp-label">
                     Email
                   </Col>
                   <Col xs={24} sm={24} md={11}>
-                    <div className="login-inp" >{this.state.email}dsfdsf</div>
+                    <div className="login-inp" >{this.state.user.email}</div>
                   </Col>
                 </Row>
                 <Row justify="space-between">
-                  <Col xs={24} sm={24} md={11}>
+                  <Col xs={24} sm={24} md={11} className="inp-label">
                     Gender
                   </Col>
                   <Col xs={24} sm={24} md={11}>
-                    <div className="login-inp" >{this.state.gender}dfdff</div>
+                    <div className="login-inp" >{this.state.user.gender}</div>
                   </Col>
                 </Row>
                 <Row justify="space-between">
-                  <Col xs={24} sm={24} md={11}>
+                  <Col xs={24} sm={24} md={11} className="inp-label">
                     Age
                   </Col>
                   <Col xs={24} sm={24} md={11}>
-                    <div className="login-inp" >{this.state.name}dfdff</div>
+                    <div className="login-inp" >{this.state.user.age}</div>
                   </Col>
                 </Row>
                 <Row justify="space-between">
-                  <Col xs={24} sm={24} md={11}>
+                  <Col xs={24} sm={24} md={11} className="inp-label">
                     Supervising Doctor
                   </Col>
                   <Col xs={24} sm={24} md={11}>
-                    <div className="login-inp" >{this.state.doctor}dfdff</div>
+                    <div className="login-inp" >Dr. R.D. Sharma</div>
                   </Col>
                 </Row>
-                {/* <div style={{textAlign:'center'}}>
-                  <Button className="login-btn" type="primary" size="large" onClick={this.handleLogin}>Save Changes</Button>
-                </div> */}
+                {this.state.user.severity !== "none" ?
+                  <>
+                    <Divider orientation="left">Line of Treatment</Divider>
+                    {this.state.user.severity == "mild" ?
+                      <>
+                        <Row justify="space-between">
+                          <Col xs={24} sm={24} md={11} className="inp-label">
+                            Prescribed Medicine
+                          </Col>
+                          <Col xs={24} sm={24} md={11}>
+                            <div className="login-inp" >Amlo5 Max</div>
+                          </Col>
+                        </Row>
+                        <Row justify="space-between">
+                          <Col xs={24} sm={24} md={11} className="inp-label">
+                            Medicine Frequency
+                          </Col>
+                          <Col xs={24} sm={24} md={11}>
+                            <div className="login-inp" >Once in a day</div>
+                          </Col>
+                        </Row>
+                      </> :
+                      <Row justify="space-between">
+                        <Col xs={24} sm={24} md={11} className="inp-label">
+                          Nearest Hospital
+                        </Col>
+                        <Col xs={24} sm={24} md={11}>
+                          <div className="login-inp" >M.G.M. Rugnalay</div>
+                        </Col>
+                      </Row>}
+                  </> : <></>}
               </div>
             </Col>
           </Row>
         </Content>
-      </Layout>
+      </Layout >
     )
   }
 }

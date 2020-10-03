@@ -16,7 +16,7 @@ const { Header, Content, Footer } = Layout;
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: '', pass: '' }
+    this.state = { email: '', pass: '' }
   }
   handleChange = e => {
     let name = e.target.name;
@@ -24,8 +24,8 @@ class Login extends React.Component {
   }
   handleLogin = () => {
     let body = {
-      username: this.state.username,
-      pass: this.state.pass
+      email: this.state.email,
+      password: this.state.pass
     }
     fetch('http://127.0.0.1:5000/login', {
       method: 'POST',
@@ -38,15 +38,17 @@ class Login extends React.Component {
       },
     })
       .then(response => {
-        console.log(response);
         return response.json();
       }).then(data => {
-        // Work with JSON data here
-        console.log(data);
         if (data.status == 200) {
+          console.log(data);
           message.success('Login successful !');
-          store.dispatch(set("user", { username: this.state.username, role: data.role }));
-          history.push('/home');
+          store.dispatch(set("user", { email: this.state.email, role: data.role, name: data.name, gender: data.gender, age: data.age }));
+          store.dispatch(set("firstTime", false ));
+          if(data.role=="patient")
+            history.push('/profile');
+          else 
+            history.push('/patientsList');
         } else {
           message.error('Login unsuccessful !');
           this.setState({ username: '', pass: '' })
@@ -58,8 +60,8 @@ class Login extends React.Component {
       });
 
     //--------Mock----------//
-    store.dispatch(set("user", { username: this.state.username, role: 'Patient', firstTime: true }));
-    history.push('/profile');
+    // store.dispatch(set("user", { username: this.state.username, role: 'Patient', firstTime: true }));
+    // history.push('/profile');
     //-----Mock-Ends--------//
 
   }
@@ -72,7 +74,7 @@ class Login extends React.Component {
             <Col xs={24} sm={20} md={6} className="login-form-wrapper">
               <div className="login-title">LOGIN</div>
               <div className="login-form">
-                <Input className="login-inp" size="large" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
+                <Input className="login-inp" size="large" placeholder="Email Adress" name="email" value={this.state.email} onChange={this.handleChange} />
                 <Input className="login-inp" size="large" placeholder="Password" name="pass" value={this.state.pass} onChange={this.handleChange} type="password" />
                 <Button className="login-btn" type="primary" size="large" onClick={this.handleLogin}>Submit</Button>
               </div>

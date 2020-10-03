@@ -129,8 +129,23 @@ class Profile extends React.Component {
     ];
   }
   componentDidMount() {
-    // write fetch api /patients and store the data in this.state.patients & this.state.orgPatients
-    this.setState({ patients: this.patients, orgPatients: this.patients });
+    fetch('http://127.0.0.1:5000/patients', {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'same-origin'
+    })
+      .then(response => {
+        console.log(response);
+        return response.json();
+      }).then(data => {
+        // Work with JSON data here
+        console.log(data);
+        if (data.status == 200) {
+          this.setState({ patients: data.data, orgPatients: data.data });
+        } else {
+          message.error('Fetch Unsuccessful !');
+        }
+      });
   }
   toggleShowModal = (booli, record = {}) => {
     this.setState({ showModal: booli, currPatient: record });
@@ -140,7 +155,7 @@ class Profile extends React.Component {
     this.setState({ [name]: e.target.value });
   }
   handleRedirect = () => {
-    store.dispatch(set("patient", this.state.currPatient ));
+    store.dispatch(set("currPatient", this.state.currPatient ));
     history.push('/monitor');
   }
   handleFilter = e => {
@@ -148,47 +163,6 @@ class Profile extends React.Component {
     let value = e.target.value;
     this.setState({ [name]: e.target.value });
     this.setState({ patients: this.state.orgPatients.filter((obj) => { return obj.name.toLowerCase().includes(value.toLowerCase()) }) });
-  }
-  handleLogin = () => {
-    let body = {
-      username: this.state.username,
-      pass: this.state.pass
-    }
-    // fetch('http://localhost:5000/login', {
-    //   method: 'POST',
-    //   mode: 'cors',
-    //   credentials: 'same-origin',
-    //   body: JSON.stringify(body),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json'
-    //   },
-    // })
-    //   .then(response => {
-    //     console.log(response);
-    //     return response.json();
-    //   }).then(data => {
-    //     // Work with JSON data here
-    //     console.log(data);
-    //     if (data.status == 200) {
-    //       message.success('Login successful !');
-    //       store.dispatch(set("user", { username: this.state.username, role: data.role }));
-    //       history.push('/profile');
-    //     } else {
-    //       message.error('Login unsuccessful !');
-    //       this.setState({ username: '', pass: '' })
-    //     }
-    //   }).catch(err => {
-    //     // Do something for an error here
-    //     console.log("Error Reading data " + err);
-    //     message.error('Login Unsuccessful!');
-    //   });
-
-    //--------Mock----------//
-    store.dispatch(set("user", { username: this.state.username, role: 'Patient' }));
-    history.push('/');
-    //-----Mock-Ends--------//
-
   }
 
   render() {

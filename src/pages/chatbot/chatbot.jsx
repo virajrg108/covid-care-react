@@ -1,6 +1,8 @@
 import React from 'react';
 import { generateReducers, set, get, reset, push, del } from "automate-redux";
 import ChatBot from 'react-simple-chatbot';
+import { message } from 'antd';
+import history from '../../history';
 
 import Topbar from '../../components/topbar';
 import { store } from '../../App';
@@ -17,22 +19,14 @@ class Chatbot extends React.Component {
     super(props);
     this.state = {
       user: get(store.getState(), "user"),
+      // firstTime: get(store.getState(), "firstTime"),
+      firstTime: get(store.getState(), "firstTime"), location: '',
       name: '', gender: 'male', age: '', fever: false, shortBreathe: false, cough: false, weakness: false, travelled: false, closeContact: false, pneumonia: false
     };
     this.firstTimeSteps = [
       {
-        id: '1',
-        message: 'What is your name?',
-        trigger: 'name'
-      },
-      {
-        id: 'name',
-        user: true,
-        trigger: '2'
-      },
-      {
         id: '2',
-        message: 'Hi {previousValue}! What is your gender?',
+        message: `Hi ${this.state.user.name}! What is your gender?`,
         trigger: 'gender',
       },
       {
@@ -138,7 +132,7 @@ class Chatbot extends React.Component {
       },
       {
         id: '10',
-        component: <Collector firstTime={true} />,
+        component: <Collector firstTime={this.state.firstTime} user={this.state.user} location={this.state.location} />,
         asMessage: true,
         end: true,
       },
@@ -146,7 +140,7 @@ class Chatbot extends React.Component {
     this.steps = [
       {
         id: '1',
-        message: `Hey ${this.state.user.username}, how are you feeling today?`,
+        message: `Hey ${this.state.user.name}, how are you feeling today?`,
         trigger: 'condition'
       },
       {
@@ -199,25 +193,111 @@ class Chatbot extends React.Component {
       },
       {
         id: '6',
-        component: <Collector firstTime={false} />,
+        component: <Collector firstTime={this.state.firstTime} user={this.state.user} />,
         end: true
       }
     ]
   }
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position);
+      this.setState({ location: position.coords.latitude.toFixed(2).toString() + " " + position.coords.longitude.toFixed(2).toString() })
+      store.dispatch(set("location", position.coords.latitude.toFixed(2).toString() + " " + position.coords.longitude.toFixed(2).toString()));
+    });
+  }
   render() {
     return (
       <div className="chatbot-wrapper">
-        <Topbar title={'Covid Care'} tabs={this.state.user.role && this.state.user.role == 'Patient' ? MenuHandler[0].tabs : MenuHandler[1].tabs} selected="profile" />
-        <ChatBot className="chatbot" steps={this.state.user.firstTime?this.firstTimeSteps:this.steps} />
+        <Topbar title={'Covid Care'} tabs={this.state.user.role && this.state.user.role == 'patient' ? MenuHandler[0].tabs : MenuHandler[1].tabs} selected="profile" />
+        <ChatBot className="chatbot" steps={this.state.firstTime ? this.firstTimeSteps : this.steps} />
       </div>
     )
   }
 }
 
-function Collector (props) {
+function Collector(props) {
   console.log(props);
+  if (props.firstTime) {
+    let body = {
+      email: props.user.email,
+      gender: props.steps.gender.value,
+      age: props.steps.age.value,
+      location: get(store.getState(), "location"),
+      fever: props.steps.fever.value,
+      breathe: props.steps.breathe.value,
+      cough: props.steps.cough.value,
+      weakness: props.steps.weakness.value,
+      travelled: props.steps.travelled.value,
+      contact: props.steps.contact.value,
+      pneumonia: props.steps.pneumonia.value,
+    }
+    console.log(body, 'body');
+    fetch('http://localhost:5000/firstchat', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'same-origin',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    })
+      .then(response => {
+        console.log(response);
+        return response.json();
+      }).then(data => {
+        // Work with JSON data here
+        console.log(data);
+        if (data.status == 200) {
+          // store.dispatch(set("user.age", props.steps.age.value ));
+          // store.dispatch(set("user.gender", props.steps.gender.value ));
+          // store.dispatch(set("user.location", props.steps.location.value ));
+          if (data.testRequired) {
+            message.info('Test required !');
+            history.push('/takeTest');
+            return;
+          }
+          message.info('Test not required !');
+          history.push('/profile');
+        } else {
+          message.error('Error!');
+        }
+      })
+  } else {
+    let body = {
+      email: props.user.email,
+      condition: props.steps.condition.value,
+      respRate: props.steps.respRate.value,
+      oxSat: props.steps.oxSat.value,
+      bp: props.steps.bp.value,
+      temp: props.steps.temp.value
+    }
+    console.log(body, 'body');
+    fetch('http://localhost:5000/chat', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'same-origin',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    })
+      .then(response => {
+        console.log(response);
+        return response.json();
+      }).then(data => {
+        // Work with JSON data here
+        console.log(data);
+        if (data.status == 200) {
+          message.info('Info recorded !');
+        } else {
+          message.error('Error!');
+        }
+      })
+  }
   return <div>
-    {props.firstTime?`Processing your answers...`:`Thank you for answering the questions. Your answers have been recorded and sent for further process`}
+    {props.firstTime ? `Processing your answers...` : `Thank you for answering the questions. Your answers have been recorded and sent for further process`}
   </div>
 }
 

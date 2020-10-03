@@ -14,7 +14,7 @@ import Test from './pages/test/test';
 import Patients from './pages/patients/patients';
 import Monitor from './pages/monitor/monitor';
 
-const initialState = { user: {username: 'user', pass: '', role: null}, patient: {} };
+const initialState = { user: {username: 'user', pass: '', role: null}, patient: {}, firstTime: false, currPatient:'' };
 export const store = createStore(generateReducers(initialState));
 
 class App extends React.Component {

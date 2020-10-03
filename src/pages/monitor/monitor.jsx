@@ -19,8 +19,7 @@ const MenuHandler = [
 class Profile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: get(store.getState(), "user"), currPatient: get(store.getState(), "patient") };
-    console.log(get(store.getState(), "patient"), 'monitor');
+    this.state = { user: get(store.getState(), "user"), currPatient: get(store.getState(), "currPatient") };
     this.columns = [
       {
         title: 'Timestamp',
@@ -53,40 +52,34 @@ class Profile extends React.Component {
         key: 'temp',
       }
     ];
-    this.data = [
-      {
-        "timestamp": 15788783,
-        "condition": "better",
-        "respRate": 72,
-        "oxSat": 23,
-        "bp": 180,
-        "temp": 120,
+  }
+  componentDidMount() {
+    fetch('http://localhost:5000/record/'+this.state.currPatient.email, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
-      {
-        "timestamp": 15788783,
-        "condition": "better",
-        "respRate": 72,
-        "oxSat": 23,
-        "bp": 180,
-        "temp": 120,
-      },
-      {
-        "timestamp": 15788783,
-        "condition": "better",
-        "respRate": 72,
-        "oxSat": 23,
-        "bp": 180,
-        "temp": 120,
-      },
-      {
-        "timestamp": 15788783,
-        "condition": "better",
-        "respRate": 72,
-        "oxSat": 23,
-        "bp": 180,
-        "temp": 120,
-      }
-    ]
+    })
+      .then(response => {
+        console.log(response);
+        return response.json();
+      }).then(data => {
+        // Work with JSON data here
+        console.log(data);
+        if (data.status == 200) {
+          console.log(data);
+          this.setState({ data: data.result})
+        } else {
+          message.error('Unsuccessful !');
+        }
+      }).catch(err => {
+        // Do something for an error here
+        console.log("Error Reading data " + err);
+        message.error('Login Unsuccessful!');
+      });
   }
   handleChange = e => {
     let name = e.target.name;
@@ -94,47 +87,6 @@ class Profile extends React.Component {
   }
   handleRedirect = (page) => {
     history.push('/' + page);
-  }
-  handleLogin = () => {
-    let body = {
-      username: this.state.username,
-      pass: this.state.pass
-    }
-    // fetch('http://localhost:5000/login', {
-    //   method: 'POST',
-    //   mode: 'cors',
-    //   credentials: 'same-origin',
-    //   body: JSON.stringify(body),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json'
-    //   },
-    // })
-    //   .then(response => {
-    //     console.log(response);
-    //     return response.json();
-    //   }).then(data => {
-    //     // Work with JSON data here
-    //     console.log(data);
-    //     if (data.status == 200) {
-    //       message.success('Login successful !');
-    //       store.dispatch(set("user", { username: this.state.username, role: data.role }));
-    //       history.push('/profile');
-    //     } else {
-    //       message.error('Login unsuccessful !');
-    //       this.setState({ username: '', pass: '' })
-    //     }
-    //   }).catch(err => {
-    //     // Do something for an error here
-    //     console.log("Error Reading data " + err);
-    //     message.error('Login Unsuccessful!');
-    //   });
-
-    //--------Mock----------//
-    store.dispatch(set("user", { username: this.state.username, role: 'Patient' }));
-    history.push('/');
-    //-----Mock-Ends--------//
-
   }
   render() {
     return (
@@ -167,7 +119,7 @@ class Profile extends React.Component {
                     </Col>
                   </Row>
                 </Col>
-                <Table dataSource={this.data} columns={this.columns} pagination={{ defaultPageSize: 5 }} />
+                <Table dataSource={this.state.data} columns={this.columns} pagination={{ defaultPageSize: 5 }} />
               </Row>
             </Col>
           </Row>

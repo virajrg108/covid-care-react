@@ -5,6 +5,12 @@
   align-items: center;
   color: #fff;
   margin-top: 100px;
+  .ant-divider-horizontal.ant-divider-with-text::after, .ant-divider-horizontal.ant-divider-with-text::before {
+    border-top: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  .inp-label {
+    font-size: 14px;
+  }
   .login-content {
     background-color: #fff;
     width: 100%;

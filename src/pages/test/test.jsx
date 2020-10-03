@@ -19,7 +19,7 @@ const MenuHandler = [
 class Profile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: get(store.getState(), "user") };
+    this.state = { user: get(store.getState(), "user"), corads: '', hrct: '' };
     console.log();
   }
   handleChange = e => {
@@ -29,51 +29,46 @@ class Profile extends React.Component {
   handleRedirect = (page) => {
     history.push('/' + page);
   }
-  handleLogin = () => {
+  handleSubmit = () => {
     let body = {
-      username: this.state.username,
-      pass: this.state.pass
+      email: 'v',
+      corads: parseInt(this.state.corads),
+      hrct: parseInt(this.state.hrct)
     }
-    // fetch('http://localhost:5000/login', {
-    //   method: 'POST',
-    //   mode: 'cors',
-    //   credentials: 'same-origin',
-    //   body: JSON.stringify(body),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Accept': 'application/json'
-    //   },
-    // })
-    //   .then(response => {
-    //     console.log(response);
-    //     return response.json();
-    //   }).then(data => {
-    //     // Work with JSON data here
-    //     console.log(data);
-    //     if (data.status == 200) {
-    //       message.success('Login successful !');
-    //       store.dispatch(set("user", { username: this.state.username, role: data.role }));
-    //       history.push('/profile');
-    //     } else {
-    //       message.error('Login unsuccessful !');
-    //       this.setState({ username: '', pass: '' })
-    //     }
-    //   }).catch(err => {
-    //     // Do something for an error here
-    //     console.log("Error Reading data " + err);
-    //     message.error('Login Unsuccessful!');
-    //   });
-
-    //--------Mock----------//
-    store.dispatch(set("user", { username: this.state.username, role: 'Patient' }));
-    history.push('/');
-    //-----Mock-Ends--------//
-
+    fetch('http://localhost:5000/test', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'same-origin',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    })
+      .then(response => {
+        console.log(response);
+        return response.json();
+      }).then(data => {
+        // Work with JSON data here
+        console.log(data);
+        if (data.status == 200) {
+          message.success('Login successful !');
+          store.dispatch(set("user.severity", data.testResult ));
+          history.push('/profile');
+        } else {
+          message.error('Login unsuccessful !');
+          this.setState({ username: '', pass: '' })
+        }
+      }).catch(err => {
+        // Do something for an error here
+        console.log("Error Reading data " + err);
+        message.error('Login Unsuccessful!');
+      });
   }
   render() {
     return (
       <Layout className="test">
-        <Topbar title={'Covid Care'} tabs={this.state.user.role && this.state.user.role == 'Patient' ? MenuHandler[0].tabs : MenuHandler[1].tabs} selected="profile" />
+        <Topbar title={'Covid Care'} tabs={this.state.user.role && this.state.user.role == 'Patient' ? MenuHandler[0].tabs : MenuHandler[1].tabs} selected="takeTest" />
         <Content style={{ padding: '0 50px' }} className="login-content">
           <Row justify="center" style={{ width: '100%' }}>
             <Col xs={24} sm={24} md={14} className="login-form-wrapper">
@@ -84,19 +79,19 @@ class Profile extends React.Component {
                     Co-RADs
                   </Col>
                   <Col xs={24} sm={24} md={11}>
-                    <Input className="login-inp" placeholder="Value" name="username" value={this.state.username} onChange={this.handleChange} />
+                    <Input className="login-inp" placeholder="Value" name="corads" value={this.state.corads} onChange={this.handleChange} />
                   </Col>
                 </Row>
                 <Row justify="space-between">
                   <Col xs={24} sm={24} md={11} >
-                    Test 2
+                    HRCT
                   </Col>
                   <Col xs={24} sm={24} md={11}>
-                    <Input className="login-inp" placeholder="Value" name="username" value={this.state.username} onChange={this.handleChange} />
+                    <Input className="login-inp" placeholder="Value" name="hrct" value={this.state.hrct} onChange={this.handleChange} />
                   </Col>
                 </Row>
                 <div style={{textAlign:'center'}}>
-                  <Button className="login-btn" type="primary" size="large" onClick={this.handleLogin}>Submit</Button>
+                  <Button className="login-btn" type="primary" size="large" onClick={this.handleSubmit}>Submit</Button>
 
                 </div>
               </div>

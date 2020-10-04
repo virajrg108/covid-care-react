@@ -94,7 +94,7 @@ class Profile extends React.Component {
             <Col xs={24} sm={24} md={16} className="login-form-wrapper">
               <div className="login-title">MONITOR PATIENT</div>
               <Row className="login-form" justify="center">
-                <Col xs={24} sm={24} md={10} style={{ marginBottom: '20px' }}>
+                <Col xs={24} sm={24} md={14} style={{ marginBottom: '20px' }}>
                   <Row justify="space-between">
                     <Col xs={24} sm={24} md={11} style={{ marginBottom: '20px' }}>
                       <div className="modal-label">Email</div>

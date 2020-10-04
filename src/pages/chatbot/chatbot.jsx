@@ -9,7 +9,7 @@ import { store } from '../../App';
 
 import './chatbot.scss';
 
-const MenuHandler = { role: 'patient', tabs: [{ name: 'Profile', value: 'profile' }, { name: 'Daily Test', value: 'chatbot' }] };
+const MenuHandler = { role: 'patient', tabs: [{ name: 'Profile', value: 'profile' }, { name: 'AI Test', value: 'chatbot' }] };
 
 class Chatbot extends React.Component {
   constructor(props) {

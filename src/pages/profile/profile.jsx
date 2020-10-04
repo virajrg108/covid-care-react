@@ -12,7 +12,7 @@ import { store } from '../../App';
 
 // mock server - https://844171e3-d749-453e-9e27-605c39f74c8d.mock.pstmn.io
 const { Header, Content, Footer } = Layout;
-const MenuHandler = { role: 'patient', tabs: [{ name: 'Profile', value: 'profile' }, { name: 'Daily Test', value: 'chatbot' }] };
+const MenuHandler = { role: 'patient', tabs: [{ name: 'Profile', value: 'profile' }, { name: 'AI Test', value: 'chatbot' }] };
 class Profile extends React.Component {
   constructor(props) {
     super(props);

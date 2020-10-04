@@ -12,10 +12,7 @@ import { store } from '../../App';
 
 // mock server - https://844171e3-d749-453e-9e27-605c39f74c8d.mock.pstmn.io
 const { Header, Content, Footer } = Layout;
-const MenuHandler = [
-  { role: 'patient', tabs: [{ name: 'Profile', value: 'profile' }, { name: 'Chatbot', value: 'chatbot' }] },
-  { role: 'doctor', tabs: [{ name: 'Dashboard', value: 'Dashboard' }, { name: 'Daily test', value: 'takeTest' }] }
-]
+const MenuHandler = { role: 'patient', tabs: [{ name: 'Profile', value: 'profile' }, { name: 'Daily Test', value: 'chatbot' }] };
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -27,7 +24,7 @@ class Profile extends React.Component {
   render() {
     return (
       <Layout className="profile">
-        <Topbar title={'Covid Care'} tabs={this.state.user.role && this.state.user.role == 'patient' ? MenuHandler[0].tabs : MenuHandler[1].tabs} selected="profile" />
+        <Topbar title={'Covid Care'} tabs={MenuHandler.tabs} selected="profile" />
         <Content style={{ padding: '0 50px' }} className="login-content">
           <Row justify="center" style={{ width: '100%' }}>
             <Col xs={24} sm={24} md={14} className="login-form-wrapper">

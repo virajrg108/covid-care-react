@@ -9,10 +9,7 @@ import { store } from '../../App';
 
 import './chatbot.scss';
 
-const MenuHandler = [
-  { role: 'Patient', tabs: [{ name: 'Profile', value: 'profile' }, { name: 'Daily test', value: 'test' }] },
-  { role: 'Doctor', tabs: [{ name: 'Dashboard', value: 'Dashboard' }, { name: 'Daily test', value: 'test' }] }
-]
+const MenuHandler = { role: 'patient', tabs: [{ name: 'Profile', value: 'profile' }, { name: 'Daily Test', value: 'chatbot' }] };
 
 class Chatbot extends React.Component {
   constructor(props) {
@@ -208,7 +205,7 @@ class Chatbot extends React.Component {
   render() {
     return (
       <div className="chatbot-wrapper">
-        <Topbar title={'Covid Care'} tabs={this.state.user.role && this.state.user.role == 'patient' ? MenuHandler[0].tabs : MenuHandler[1].tabs} selected="profile" />
+        <Topbar title={'Covid Care'} tabs={MenuHandler.tabs} selected="chatbot" />
         <ChatBot className="chatbot" steps={this.state.firstTime ? this.firstTimeSteps : this.steps} />
       </div>
     )

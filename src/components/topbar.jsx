@@ -23,7 +23,7 @@ class Topbar extends React.Component {
   }
   componentDidMount() {
     console.log(this.props, 'componentDid');
-    this.setState({tabs: this.props.tabs, selected:this.props.selected });
+    this.setState({ tabs: this.props.tabs, selected: this.props.selected });
   }
   render() {
     return (
@@ -45,10 +45,10 @@ class Topbar extends React.Component {
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
           >
-            {this.state.tabs.length!=0 ? this.state.tabs.map((obj) => {
-              return <Menu.Item onClick={()=>this.handleRedirect(obj.value)} key={obj.value} style={{ display: this.props.tabs.profile }}>{obj.name}</Menu.Item>
-            }):<></>}
-            <Menu.Item key="4" >Logout</Menu.Item>
+            {this.state.tabs.length != 0 ? this.state.tabs.map((obj) => {
+              return <Menu.Item onClick={() => this.handleRedirect(obj.value)} key={obj.value} style={{ display: this.props.tabs.profile }}>{obj.name}</Menu.Item>
+            }) : <></>}
+            <Menu.Item key="4" onClick={() => this.handleRedirect('')}>Logout</Menu.Item>
           </Menu>
         </Drawer>
         <div className="menu-btn-sm-wrapper" onClick={() => { this.toggleDrawer(true) }}>
@@ -63,10 +63,10 @@ class Topbar extends React.Component {
           </Col>
           <Col span={8} className="menu-wrapper-lg">
             <Menu className="desktop-menu" theme="dark" mode="horizontal" selectedKeys={this.state.selected}>
-              {this.state.tabs.length!=0 ? this.state.tabs.map((obj) => {
-                return <Menu.Item onClick={()=>this.handleRedirect(obj.value)} key={obj.value} style={{ display: this.props.tabs.profile }}>{obj.name}</Menu.Item>
-              }):<></>}
-              <Menu.Item key="4">Logout</Menu.Item>
+              {this.state.tabs.length != 0 ? this.state.tabs.map((obj) => {
+                return <Menu.Item onClick={() => this.handleRedirect(obj.value)} key={obj.value} style={{ display: this.props.tabs.profile }}>{obj.name}</Menu.Item>
+              }) : <></>}
+              <Menu.Item key="4" onClick={() => this.handleRedirect('')}>Logout</Menu.Item>
             </Menu>
           </Col>
         </Row>

@@ -57,7 +57,7 @@ class Chatbot extends React.Component {
       },
       {
         id: '4',
-        message: 'Do you have short breathe?',
+        message: 'Do you have difficulty breathing?',
         trigger: 'breathe',
       },
       {
@@ -200,6 +200,23 @@ class Chatbot extends React.Component {
       console.log(position);
       this.setState({ location: position.coords.latitude.toFixed(2).toString() + " " + position.coords.longitude.toFixed(2).toString() })
       store.dispatch(set("location", position.coords.latitude.toFixed(2).toString() + " " + position.coords.longitude.toFixed(2).toString()));
+      fetch('https://us1.locationiq.com/v1/reverse.php?key=pk.8099afdb4f73803e211c74fbca530105&format=json&lat='+position.coords.latitude+'&lon='+position.coords.longitude, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+      })
+        .then(response => {
+          console.log(response);
+          return response.json();
+        }).then(data => {
+          // Work with JSON data here
+          console.log(data);
+          this.setState({location: data.display_name});
+        })
     });
   }
   render() {
